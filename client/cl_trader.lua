@@ -19,14 +19,14 @@ OpenTrader = function(traderIndex)
     local traderData = Config.Traders[traderIndex]
 
     if traderData then
-        local itemsToSell = FetchItemsToSell(traderIndex)
-
-        if #itemsToSell == 0 then
-            TriggerEvent("vorp:TipRight", "You have nothing this trader wants..", 4000)
-        else
-            menuElementsData = FormatMenuElements(traderData, itemsToSell)
-            HandleMenu(traderIndex)
-        end
+        FetchItemsToSell(traderIndex, function(itemsToSell)
+            if #itemsToSell == 0 then
+                TriggerEvent("vorp:TipRight", "You have nothing this trader wants..", 4000)
+            else
+                menuElementsData = FormatMenuElements(traderData, itemsToSell)
+                HandleMenu(traderIndex)
+            end
+        end)
     end
 end
 
@@ -94,20 +94,22 @@ FormatMenuElements = function(traderData, items)
     return elements
 end
 
-FetchItemsToSell = function(traderIndex)
+FetchItemsToSell = function(traderIndex, cb)
     local traderData = Config.Traders[traderIndex]
-    local inventory = exports["vorp_inventory"]:GetUserInventory()
-    local itemsToSell = {}
 
-    for _, itemData in pairs(inventory) do
-        if Config.Prices[itemData.name] and not table.containsValue(traderData.blacklistedItems, itemData.name) then
-            table.insert(itemsToSell, {
-                label = itemData.label,
-                name = itemData.name,
-                count = itemData.count,
-            })
+    VORPCore.RpcCall("m_trader:server:getInventory", function(inventory)
+        local itemsToSell = {}
+
+        for _, itemData in pairs(inventory) do
+            if Config.Prices[itemData.name] and not table.containsValue(traderData.blacklistedItems, itemData.name) then
+                table.insert(itemsToSell, {
+                    label = itemData.label,
+                    name = itemData.name,
+                    count = itemData.count,
+                })
+            end
         end
-    end
 
-    return itemsToSell
+        cb(itemsToSell)
+    end)
 end
