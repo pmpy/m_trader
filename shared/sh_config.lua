@@ -25,6 +25,7 @@ Config.Traders = {
         ped = {
             enabled = true,
             model = "u_m_m_sdtrapper_01",
+            spawnDistance = 100,
             location = vector4(-333.19, 769.62, 116.39, 100.84) -- x, y, z, heading / w
         },
         marker = {

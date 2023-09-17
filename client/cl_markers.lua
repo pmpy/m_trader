@@ -1,7 +1,7 @@
 local insideMarker = nil
 AccessibleTraders = nil
 
-Citizen.CreateThread(function()
+CreateThread(function()
     Wait(500)
 
     while true or AccessibleTraders == nil do
@@ -15,6 +15,7 @@ Citizen.CreateThread(function()
             end
 
             AccessibleTraders = jobValidTraders
+
             UpdateBlips()
             UpdatePeds()
         end)
