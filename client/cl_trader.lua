@@ -21,7 +21,7 @@ OpenTrader = function(traderIndex)
     if traderData then
         FetchItemsToSell(traderIndex, function(itemsToSell)
             if #itemsToSell == 0 then
-                TriggerEvent("vorp:TipRight", "You have nothing this trader wants..", 4000)
+                VORPCore.NotifyRightTip("You have nothing this trader wants..", 4000)
             else
                 menuElementsData = FormatMenuElements(traderData, itemsToSell)
                 HandleMenu(traderIndex)

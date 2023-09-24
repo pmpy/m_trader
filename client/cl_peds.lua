@@ -50,14 +50,3 @@ AddEventHandler('onResourceStop', function(resource)
         DeleteEntity(ped)
     end
 end)
-
-GetGroundedCoords = function(x, y)
-    for height = 1, 1000 do
-        local foundGround, groundZ, normal = GetGroundZAndNormalFor_3dCoord(x, y, height + 0.0)
-        if foundGround then
-            return groundZ
-        end
-        Wait(1)
-    end
-    return nil
-end
