@@ -2,11 +2,11 @@ local peds = {}
 
 CreateThread(function()
     while true do Wait(5000)
-        UpdatePeds()
+        GlobalUpdatePeds()
     end
 end)
 
-UpdatePeds = function()
+GlobalUpdatePeds = function()
     for _, traderData in pairs(AccessibleTraders) do
         if traderData.ped.enabled then
             local hashModel = GetHashKey(traderData.ped.model)

@@ -1,12 +1,12 @@
 local menuElementsData -- Store elements in variable to automatically update menu when someone sells
 
 RegisterNetEvent("m_trader:client:updateTrader", function(traderIndex, itemName)
-    menuElementsData = RemoveMenuElement(itemName)
+    menuElementsData = RemoveTraderMenuElement(itemName)
 
     if #menuElementsData == 1 then -- Only sell all button left
         MenuData.CloseAll()
     else
-        HandleMenu(traderIndex)
+        HandleTraderMenu(traderIndex)
     end
 end)
 
@@ -23,18 +23,18 @@ OpenTrader = function(traderIndex)
             if #itemsToSell == 0 then
                 VORPCore.NotifyRightTip("You have nothing this trader wants..", 4000)
             else
-                menuElementsData = FormatMenuElements(traderData, itemsToSell)
-                HandleMenu(traderIndex)
+                menuElementsData = FormatTraderMenuElements(traderData, itemsToSell)
+                HandleTraderMenu(traderIndex)
             end
         end)
     end
 end
 
-HandleMenu = function(traderIndex)
+HandleTraderMenu = function(traderIndex)
     local traderData = Config.Traders[traderIndex]
 
     MenuData.CloseAll()
-    MenuData.Open('default', GetCurrentResourceName(), Config.Default.menuName, {
+    MenuData.Open('default', GetCurrentResourceName(), Config.Default.traderMenuName, {
         title    = traderData.menu.title,
         subtext  = traderData.menu.subtext,
         align    = traderData.menu.align,
@@ -55,7 +55,7 @@ HandleMenu = function(traderIndex)
     end)
 end
 
-RemoveMenuElement = function(itemName)
+RemoveTraderMenuElement = function(itemName)
     local toReturn = {}
 
     for _, elementData in pairs(menuElementsData) do
@@ -67,7 +67,7 @@ RemoveMenuElement = function(itemName)
     return toReturn
 end
 
-FormatMenuElements = function(traderData, items)
+FormatTraderMenuElements = function(traderData, items)
     local elements = {}
     local totalPrice = 0.0
 

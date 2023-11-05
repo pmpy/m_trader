@@ -9,8 +9,8 @@ RegisterNetEvent("m_trader:server:sellPelt", function(traderIndex, itemName)
 
     local item = exports["vorp_inventory"]:getItemByName(source, itemName)
     local price = FetchItemPrice(traderData, item.name)
-    local totalPrice = item.count * price
     if not item then return end
+    local totalPrice = item.count * price
 
     local itemRemoved = exports["vorp_inventory"]:subItem(source, item.name, item.count)
     if itemRemoved then
@@ -27,7 +27,7 @@ RegisterNetEvent("m_trader:server:sellAll", function(traderIndex)
     if not character then return end
     if not traderData then return end
 
-    FetchTotalPriceToSellAll(source, traderIndex, function(itemsToSell)
+    FetchItemsToSellAll(source, traderIndex, function(itemsToSell)
         local totalPrice = 0.0
         local totalPeltsSold = 0
 
@@ -50,7 +50,7 @@ RegisterNetEvent("m_trader:server:sellAll", function(traderIndex)
     end)
 end)
 
-FetchTotalPriceToSellAll = function(source, traderIndex, cb)
+FetchItemsToSellAll = function(source, traderIndex, cb)
     local traderData = Config.Traders[traderIndex]
 
     exports["vorp_inventory"]:getUserInventoryItems(source, function(inventory)

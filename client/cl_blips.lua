@@ -17,6 +17,7 @@ UpdateBlips = function()
     for traderName, blip in pairs(blips) do
         if not IsAccessibleTrader(traderName) then
             RemoveBlip(blip)
+            blips[traderName] = nil
         end
     end
 end

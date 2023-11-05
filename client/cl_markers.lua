@@ -17,7 +17,7 @@ CreateThread(function()
             AccessibleTraders = jobValidTraders
 
             UpdateBlips()
-            UpdatePeds()
+            GlobalUpdatePeds()
         end)
 
         Wait(25000)
@@ -71,7 +71,7 @@ FetchInsideMarker = function()
 end
 
 IsMenuOpen = function()
-    return MenuData.IsOpen("default", GetCurrentResourceName(), Config.Default.menuName)
+    return MenuData.IsOpen("default", GetCurrentResourceName(), Config.Default.traderMenuName)
 end
 
 DrawDisplayMarkers = function()
